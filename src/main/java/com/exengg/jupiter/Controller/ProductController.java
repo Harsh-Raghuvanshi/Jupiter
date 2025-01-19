@@ -3,6 +3,7 @@ package com.exengg.jupiter.Controller;
 import com.exengg.jupiter.Entity.Product;
 import com.exengg.jupiter.Enums.ProductType;
 import com.exengg.jupiter.Service.ProductService;
+import com.exengg.jupiter.Service.UserProdService;
 import com.exengg.jupiter.Utils.ProductValidators;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserProdService userProdService;
 
     @GetMapping("/single/{productId}")
     public ResponseEntity<?> getProductWithId(@PathVariable String productId){
@@ -39,12 +43,22 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/my")
+    @GetMapping("/my_products")
     public ResponseEntity<?> getMyProducts(){
         try{
-            return new ResponseEntity<>( HttpStatus.OK);
+            return new ResponseEntity<>(userProdService.getMyProducts(),HttpStatus.OK);
         }catch (Exception e){
             log.error("Error while fetching user's self uploaded products");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/my_watchlist")
+    public ResponseEntity<?> getMyWatchList(){
+        try{
+            return new ResponseEntity<>(userProdService.getMyWatchList(),HttpStatus.OK);
+        }catch (Exception e){
+            log.error("Error while fetching user's watchlist");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

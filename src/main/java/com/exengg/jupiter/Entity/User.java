@@ -18,7 +18,8 @@ public class User {
     private String password;
     private String emailId;
     private List<String> roles;
-
+    private List<String> myWatchlist;
+    private List<String> myProducts;
 
 }
 

@@ -1,6 +1,7 @@
 package com.exengg.jupiter.Entity;
 
 import com.exengg.jupiter.Enums.GiveAs;
+import com.exengg.jupiter.Enums.ProductStatus;
 import com.exengg.jupiter.Enums.ProductType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,4 +26,5 @@ public class Product
     private Integer durationInMonths;
     private Integer quantity;
     private String ownerId;
+    private ProductStatus productStatus;
 }
