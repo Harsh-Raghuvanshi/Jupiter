@@ -68,8 +68,6 @@ public class UserController {
         log.info(SecurityContextHolder.getContext().getAuthentication().toString());
         String userId=SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
         log.info("Fetched user through context is userId : {}",userId);
-//        log.info(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
-//        log.info(SecurityContextHolder.getContext().getAuthentication().getDetails().toString());
         return "Printed in logs";
     }
 

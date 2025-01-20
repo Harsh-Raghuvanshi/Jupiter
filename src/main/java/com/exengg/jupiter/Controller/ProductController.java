@@ -99,5 +99,29 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/book/{productId}")
+    public ResponseEntity<?> bookProduct(@PathVariable String productId){
+        try{
+            productService.bookProduct(productId);
+            return new ResponseEntity<>("Product Booked Successfully",HttpStatus.OK);
+
+        }catch (Exception e){
+            log.error("Error while booking product");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/un_book/{productId}")
+    public ResponseEntity<?> unBookProduct(@PathVariable String productId){
+        try{
+            productService.unBookProduct(productId);
+            return new ResponseEntity<>("Product Removed From Booking Successfully",HttpStatus.OK);
+
+        }catch (Exception e){
+            log.error("Error while removing product from bookings");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
