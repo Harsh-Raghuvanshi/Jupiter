@@ -70,21 +70,4 @@ public class ProductService {
         productRepo.deleteById(productId);
     }
 
-    public void bookProduct(String productId) {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
-        User user = userRepo.findById(userId).orElse(null);
-        if (user != null) {
-            user.getMyWatchlist().add(productId);
-            userRepo.save(user);
-        }
-    }
-
-    public void unBookProduct(String productId) {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
-        User user = userRepo.findById(userId).orElse(null);
-        if (user != null) {
-            user.setMyWatchlist(user.getMyWatchlist().stream().filter(pid -> !pid.equals(productId)).collect(Collectors.toList()));
-            userRepo.save(user);
-        }
-    }
 }

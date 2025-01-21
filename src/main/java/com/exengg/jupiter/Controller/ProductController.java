@@ -1,7 +1,7 @@
 package com.exengg.jupiter.Controller;
 
+import com.exengg.jupiter.Dto.DealRequest;
 import com.exengg.jupiter.Entity.Product;
-import com.exengg.jupiter.Enums.ProductType;
 import com.exengg.jupiter.Service.ProductService;
 import com.exengg.jupiter.Service.UserProdService;
 import com.exengg.jupiter.Utils.ProductValidators;
@@ -102,7 +102,7 @@ public class ProductController {
     @GetMapping("/book/{productId}")
     public ResponseEntity<?> bookProduct(@PathVariable String productId){
         try{
-            productService.bookProduct(productId);
+            userProdService.bookProduct(productId);
             return new ResponseEntity<>("Product Booked Successfully",HttpStatus.OK);
 
         }catch (Exception e){
@@ -114,11 +114,22 @@ public class ProductController {
     @GetMapping("/un_book/{productId}")
     public ResponseEntity<?> unBookProduct(@PathVariable String productId){
         try{
-            productService.unBookProduct(productId);
+            userProdService.unBookProduct(productId);
             return new ResponseEntity<>("Product Removed From Booking Successfully",HttpStatus.OK);
 
         }catch (Exception e){
             log.error("Error while removing product from bookings");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/deal")
+    public ResponseEntity<?> dealDoneProduct(@RequestBody DealRequest dealRequest){
+        try{
+            userProdService.dealDoneProduct(dealRequest);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            log.error("Error while completing the deal",e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
