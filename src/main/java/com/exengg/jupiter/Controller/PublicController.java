@@ -1,13 +1,11 @@
 package com.exengg.jupiter.Controller;
 
-import com.exengg.jupiter.Entity.User;
+import com.exengg.jupiter.Dto.Requests.UserRequest;
 import com.exengg.jupiter.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -27,12 +25,12 @@ public class PublicController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody UserRequest userRequest) {
         try {
-            if(!user.getEmailId().endsWith(SUFFIX)){
+            if(!userRequest.getEmailId().endsWith(SUFFIX)){
                 return new ResponseEntity<>("User NOT Created as mail do not belongs to DTU", HttpStatus.BAD_REQUEST);
             }
-            userService.createUser(user);
+            userService.createUser(userRequest);
             return new ResponseEntity<>("User Created Successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("Error occurred while creating user ", e);

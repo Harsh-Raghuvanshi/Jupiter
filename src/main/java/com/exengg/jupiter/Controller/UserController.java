@@ -1,6 +1,7 @@
 package com.exengg.jupiter.Controller;
 
-import com.exengg.jupiter.Dto.PasswordUpdateReq;
+import com.exengg.jupiter.Dto.Requests.PasswordUpdateReq;
+import com.exengg.jupiter.Dto.Requests.UserRequest;
 import com.exengg.jupiter.Entity.User;
 import com.exengg.jupiter.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +32,9 @@ public class UserController {
     }
 
     @PatchMapping("/update/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable String userId,@RequestBody User user){
+    public ResponseEntity<?> updateUser(@PathVariable String userId,@RequestBody UserRequest userRequest){
         try{
-            userService.updateUser(user,userId);
+            userService.updateUser(userRequest,userId);
             return new ResponseEntity<>("User updated successfully",HttpStatus.OK);
         }catch(Exception e){
             log.error("Error while updating user : ",e);

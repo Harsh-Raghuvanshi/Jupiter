@@ -1,4 +1,4 @@
-package com.exengg.jupiter.Dto;
+package com.exengg.jupiter.Dto.Requests;
 
 import lombok.Data;
 

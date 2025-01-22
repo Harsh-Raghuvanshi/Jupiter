@@ -1,6 +1,6 @@
 package com.exengg.jupiter.Controller;
 
-import com.exengg.jupiter.Dto.AuthRequest;
+import com.exengg.jupiter.Dto.Requests.AuthRequest;
 import com.exengg.jupiter.Utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

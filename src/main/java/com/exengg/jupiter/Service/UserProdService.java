@@ -1,6 +1,6 @@
 package com.exengg.jupiter.Service;
 
-import com.exengg.jupiter.Dto.DealRequest;
+import com.exengg.jupiter.Dto.Requests.DealRequest;
 import com.exengg.jupiter.Entity.Deals;
 import com.exengg.jupiter.Entity.Product;
 import com.exengg.jupiter.Entity.User;

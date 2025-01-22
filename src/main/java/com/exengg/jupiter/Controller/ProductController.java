@@ -1,7 +1,7 @@
 package com.exengg.jupiter.Controller;
 
-import com.exengg.jupiter.Dto.DealRequest;
-import com.exengg.jupiter.Entity.Product;
+import com.exengg.jupiter.Dto.Requests.DealRequest;
+import com.exengg.jupiter.Dto.Requests.ProductRequest;
 import com.exengg.jupiter.Service.ProductService;
 import com.exengg.jupiter.Service.UserProdService;
 import com.exengg.jupiter.Utils.ProductValidators;
@@ -64,7 +64,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createProduct(@RequestBody Product product){
+    public ResponseEntity<?> createProduct(@RequestBody ProductRequest product){
         try{
             productService.createProduct(product);
             return new ResponseEntity<>("Product Created Successfully",HttpStatus.CREATED);
@@ -76,7 +76,7 @@ public class ProductController {
     }
 
     @PatchMapping("/update/{productId}")
-    public ResponseEntity<?> updateProduct(@RequestBody Product product,@PathVariable String productId){
+    public ResponseEntity<?> updateProduct(@RequestBody ProductRequest product,@PathVariable String productId){
         try{
             productService.updateProduct(product,productId);
             return new ResponseEntity<>("Product Updated Successfully",HttpStatus.CREATED);
@@ -88,7 +88,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{productId}")
-    public ResponseEntity<?> deleteProduct(@RequestBody Product product,@PathVariable String productId){
+    public ResponseEntity<?> deleteProduct(@PathVariable String productId){
         try{
             productService.deleteProduct(productId);
             return new ResponseEntity<>("Product Deleted Successfully",HttpStatus.CREATED);

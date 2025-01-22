@@ -1,10 +1,13 @@
 package com.exengg.jupiter.Service;
 
+import com.exengg.jupiter.Dto.Requests.ProductRequest;
 import com.exengg.jupiter.Entity.Product;
 import com.exengg.jupiter.Entity.User;
 import com.exengg.jupiter.Enums.ProductStatus;
 import com.exengg.jupiter.Repo.ProductRepo;
 import com.exengg.jupiter.Repo.UserRepo;
+import com.exengg.jupiter.Utils.Converter.ObjConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ProductService {
 
@@ -24,14 +28,18 @@ public class ProductService {
     @Autowired
     private UserRepo userRepo;
 
-    public void createProduct(Product product) {
+    public void createProduct(ProductRequest productRequest) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getCredentials().toString();
+        Product product = ObjConverter.getProductObjFromProductRequest(productRequest);
         User user = userRepo.findById(userId).orElse(null);
-        if (user != null) {
-            user.getMyProducts().add(product.getId());
-            userRepo.save(user);
-            product.setOwnerId(userId);
+        if (user == null || product == null) {
+            log.error("Either user or product is null user : {} product : {}", user, product);
+            return;
         }
+        user.getMyProducts().add(product.getId());
+        userRepo.save(user);
+
+        product.setOwnerId(userId);
         product.setProductStatus(ProductStatus.IN_MARKET);
         productRepo.save(product);
     }
@@ -51,13 +59,19 @@ public class ProductService {
         return productRepo.findById(productId).orElse(null);
     }
 
-    public void updateProduct(Product product, String productId) {
+    public void updateProduct(ProductRequest productRequest, String productId) {
         Optional<Product> opt = productRepo.findById(productId);
-        if (opt.isPresent()) {
-            Product existingProduct = opt.get();
-            product.setId(existingProduct.getId());
-            product.setOwnerId(existingProduct.getOwnerId());
+        Product updateProduct = ObjConverter.getProductObjFromProductRequest(productRequest);
+        if (opt.isEmpty() || updateProduct == null) {
+            log.error("Either existing product is null or coming product is null");
+            return;
         }
+
+        Product existingProduct = opt.get();
+        updateProduct.setId(existingProduct.getId());
+        updateProduct.setOwnerId(existingProduct.getOwnerId());
+        productRepo.save(updateProduct);
+
     }
 
     public void deleteProduct(String productId) {
